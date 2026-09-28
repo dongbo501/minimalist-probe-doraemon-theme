@@ -1,0 +1,604 @@
+{
+  "name": "Doraemon Probe",
+  "short": "doraemon",
+  "description": "哆啦A梦主题的极简探针：竹蜻蜓转速、四次元口袋、百宝袋、任意门传送网络与黄铃铛彩蛋",
+  "version": "1.0.0",
+  "author": "dongbo501",
+  "url": "https://github.com/dongbo501/minimalist-probe-doraemon-theme",
+  "config": [
+    {
+      "type": "title",
+      "label": "01 · 天空模式与基础连接"
+    },
+    {
+      "key": "themeMode",
+      "type": "select",
+      "label": "默认天空模式",
+      "default": "dark",
+      "options": [
+        {
+          "value": "beijing",
+          "label": "按北京时间自动"
+        },
+        {
+          "value": "light",
+          "label": "晴空模式"
+        },
+        {
+          "value": "dark",
+          "label": "夜空充电模式"
+        }
+      ],
+      "help": "beijing=北京时间 07:00-18:59 使用晴空模式、其余时间使用夜空充电模式；light=晴空模式；dark=夜空充电模式。前端右上角按钮可仅为当前浏览器临时切换。"
+    },
+    {
+      "key": "dataUpdateInterval",
+      "type": "number",
+      "label": "道具数据更新间隔",
+      "default": 3,
+      "min": 1,
+      "max": 60,
+      "help": "HTTP 轮询模式下节点实时数据的刷新间隔，单位：秒（1-60）。WebSocket 模式固定由 hub 每 2 秒推送。"
+    },
+    {
+      "key": "rpcTransportMode",
+      "type": "select",
+      "label": "任意门数据连接方式",
+      "default": "http",
+      "options": [
+        {
+          "value": "http",
+          "label": "HTTP 轮询"
+        },
+        {
+          "value": "websocket",
+          "label": "WebSocket 实时推送"
+        }
+      ],
+      "help": "http=按下方间隔轮询 /api/nodes；websocket=使用 hub 的 /api/ws 每 2 秒推送（反向代理需放行 WebSocket）。"
+    },
+    {
+      "key": "defaultViewMode",
+      "type": "select",
+      "label": "默认道具视图",
+      "default": "card",
+      "options": [
+        {
+          "value": "card",
+          "label": "卡片"
+        },
+        {
+          "value": "list",
+          "label": "列表"
+        }
+      ],
+      "help": "card=节点卡片视图；list=节点列表视图，对应首页右上角的卡片/列表切换按钮。"
+    },
+    {
+      "key": "nodeCardSize",
+      "type": "select",
+      "label": "道具卡片尺寸",
+      "default": "compact",
+      "options": [
+        {
+          "value": "mini",
+          "label": "迷你"
+        },
+        {
+          "value": "compact",
+          "label": "紧凑"
+        },
+        {
+          "value": "comfortable",
+          "label": "舒适"
+        },
+        {
+          "value": "large",
+          "label": "宽松"
+        }
+      ],
+      "help": "mini=迷你高密度；compact=紧凑（默认）；comfortable=舒适；large=宽松。"
+    },
+    {
+      "type": "title",
+      "label": "02 · 首页口袋、任意门地图与彩蛋"
+    },
+    {
+      "key": "alertEnabled",
+      "type": "boolean",
+      "label": "显示口袋公告",
+      "default": false,
+      "help": "在首页节点区域上方显示自定义口袋公告。"
+    },
+    {
+      "key": "alertTitle",
+      "type": "string",
+      "label": "口袋公告标题",
+      "default": "",
+      "help": "口袋公告的标题文字。"
+    },
+    {
+      "key": "alertContent",
+      "type": "text",
+      "label": "口袋公告内容",
+      "default": "",
+      "help": "口袋公告的正文，支持简单 Markdown 格式。"
+    },
+    {
+      "key": "stopEarth",
+      "type": "boolean",
+      "label": "暂停任意门节点脉冲",
+      "default": false,
+      "help": "暂停任意门传送网络地图上红鼻子节点的脉冲动画。"
+    },
+    {
+      "key": "hideEarth",
+      "type": "boolean",
+      "label": "隐藏任意门传送网络地图",
+      "default": false,
+      "help": "隐藏任意门传送网络地图，保留左侧口袋总览指标。"
+    },
+    {
+      "key": "hideGeneralCard",
+      "type": "boolean",
+      "label": "隐藏首页口袋总览",
+      "default": false,
+      "help": "同时隐藏首页顶部的口袋总览指标和任意门传送网络地图。"
+    },
+    {
+      "key": "gadgetLabelsEnabled",
+      "type": "boolean",
+      "label": "显示道具标签",
+      "default": true,
+      "help": "为每台服务器随机分配一件不重复的哆啦A梦道具（竹蜻蜓、任意门、时光机……），显示在卡片底部；关闭后只显示节点原有标签。"
+    },
+    {
+      "key": "visitorInfoEnabled",
+      "type": "boolean",
+      "label": "显示来访小伙伴信息",
+      "default": true,
+      "help": "开启后显示底部“任意门来访”IP 状态条；宽屏左下角同时显示详情卡。访客 IP 由浏览器直接向第三方 IP 查询服务获取。访客称为“大雄”，已登录站长称为“哆啦A梦”。"
+    },
+    {
+      "key": "glassColorPreset",
+      "type": "select",
+      "label": "卡片配色预设",
+      "default": "哆啦蓝",
+      "options": [
+        {
+          "value": "翡翠",
+          "label": "翡翠"
+        },
+        {
+          "value": "柔和",
+          "label": "柔和"
+        },
+        {
+          "value": "高对比",
+          "label": "高对比"
+        },
+        {
+          "value": "哆啦蓝",
+          "label": "哆啦蓝（推荐）"
+        },
+        {
+          "value": "自定义",
+          "label": "自定义"
+        }
+      ],
+      "help": "控制晴空与夜空两种模式的卡片透明度、文字和边框；当前主题推荐“哆啦蓝”（白色卡片 + 深蓝文字）。选择“自定义”后读取下方 JSON。"
+    },
+    {
+      "key": "colorVisionMode",
+      "type": "select",
+      "label": "色觉辅助配色",
+      "default": "标准",
+      "options": [
+        {
+          "value": "标准",
+          "label": "标准"
+        },
+        {
+          "value": "色觉友好",
+          "label": "色觉友好"
+        }
+      ],
+      "help": "色觉友好使用蓝、蓝绿、橙、朱红、紫红，并为图表和状态增加线型、纹理、文字或图标区分。"
+    },
+    {
+      "key": "glassCustomColors",
+      "type": "text",
+      "label": "自定义晴空/夜空卡片 JSON",
+      "default": "{\"lightCard\": \"#ffffff\", \"lightControl\": \"#ffffff\", \"lightText\": \"#0b2540\", \"lightMutedText\": \"#3d5873\", \"lightBorder\": \"#ffffff\", \"darkCard\": \"#0a2c4ae6\", \"darkControl\": \"#0a2c4ad9\", \"darkText\": \"#eef8ff\", \"darkMutedText\": \"#b6d3ea\", \"darkBorder\": \"#38bdf840\"}",
+      "help": "light*=晴空模式，dark*=夜空充电模式；Card=卡片，Control=控制条，Text=主文字，MutedText=次文字，Border=边框。支持 #RRGGBB 和带透明度的 #RRGGBBAA。"
+    },
+    {
+      "type": "title",
+      "label": "03 · 首页口袋总览指标"
+    },
+    {
+      "key": "generalCardPreset",
+      "type": "select",
+      "label": "口袋总览指标方案",
+      "default": "自定义",
+      "options": [
+        {
+          "value": "官方",
+          "label": "官方"
+        },
+        {
+          "value": "基础",
+          "label": "基础"
+        },
+        {
+          "value": "运维",
+          "label": "运维"
+        },
+        {
+          "value": "资源",
+          "label": "资源"
+        },
+        {
+          "value": "财务",
+          "label": "财务"
+        },
+        {
+          "value": "流量",
+          "label": "流量"
+        },
+        {
+          "value": "GPU",
+          "label": "GPU"
+        },
+        {
+          "value": "资产",
+          "label": "资产"
+        },
+        {
+          "value": "完整",
+          "label": "完整"
+        },
+        {
+          "value": "自定义",
+          "label": "自定义"
+        }
+      ],
+      "help": "当前默认与首页六项指标一一对应：四次元口袋、道具余值、任意门上行、百宝袋、任意门累计传送、任意门下行。选择“自定义”后读取下方 keys。"
+    },
+    {
+      "key": "generalCardKeys",
+      "type": "text",
+      "label": "自定义口袋总览指标 keys",
+      "default": "memory\nremainingValue\nuploadSpeed\ndisk\ntotalTraffic\ndownloadSpeed",
+      "help": "逗号、空格或换行分隔。memory=四次元口袋 · 内存；remainingValue=道具余值；uploadSpeed=任意门传送 · 上行；disk=百宝袋 · 磁盘；totalTraffic=任意门 · 累计传送；downloadSpeed=任意门传送 · 下行；onlineNodes=元气满满 · 在线道具；avgCpu=竹蜻蜓转速 · 平均 CPU；avgLoad=铜锣烧消耗指数。"
+    },
+    {
+      "type": "title",
+      "label": "04 · 道具工具箱与隐私"
+    },
+    {
+      "key": "homeToolsEnabled",
+      "type": "boolean",
+      "label": "登录后显示道具工具箱",
+      "default": true,
+      "help": "站长登录后，在顶部道具工具箱入口显示拓扑、性价比、健康和导出功能。"
+    },
+    {
+      "key": "hideAdminEntryWhenLoggedOut",
+      "type": "boolean",
+      "label": "隐藏后台入口",
+      "default": false,
+      "help": "未登录时隐藏顶部后台管理入口（/admin）。"
+    },
+    {
+      "key": "hidePriceWhenLoggedOut",
+      "type": "boolean",
+      "label": "未登录隐藏价格",
+      "default": false,
+      "help": "未登录时不绘制价格、剩余价值和费用类卡片（只是不显示，接口仍会返回价格）；道具连续工作天数仍会显示。"
+    },
+    {
+      "key": "providerAliases",
+      "type": "string",
+      "label": "厂商自定义别名",
+      "default": "",
+      "help": "格式：Provider:alias1,alias2;Provider2:alias。"
+    },
+    {
+      "key": "disablePageAnimation",
+      "type": "boolean",
+      "label": "减弱过渡动画",
+      "default": false,
+      "help": "减少页面过渡动画效果，提升访问速度和响应性"
+    },
+    {
+      "type": "title",
+      "label": "05 · 道具卡片、列表与快捷筛选"
+    },
+    {
+      "key": "homeQuickControlsEnabled",
+      "type": "boolean",
+      "label": "显示道具快捷筛选",
+      "default": true,
+      "help": "在道具分组旁显示珍藏道具、累计传送、传送峰值、充电中、铜锣烧告急、租约将尽等快捷按钮。"
+    },
+    {
+      "key": "homeQuickControlPreset",
+      "type": "select",
+      "label": "快捷控制方案",
+      "default": "完整",
+      "options": [
+        {
+          "value": "基础",
+          "label": "基础"
+        },
+        {
+          "value": "流量",
+          "label": "流量"
+        },
+        {
+          "value": "运维",
+          "label": "运维"
+        },
+        {
+          "value": "完整",
+          "label": "完整"
+        },
+        {
+          "value": "自定义",
+          "label": "自定义"
+        }
+      ],
+      "help": "自定义时读取下方 keys。"
+    },
+    {
+      "key": "homeQuickControlKeys",
+      "type": "text",
+      "label": "自定义快捷按钮 keys",
+      "default": "favorite\ntotalTraffic\npeak\noffline",
+      "help": "逗号、空格或换行分隔。 favorite=珍藏道具； totalTraffic=累计传送； upload=传送出发； download=传送到达； peak=传送峰值； offline=充电中； highLoad=铜锣烧告急； expiring=租约将尽。"
+    },
+    {
+      "key": "nodeListMetadataEnabled",
+      "type": "boolean",
+      "label": "列表信息栏",
+      "default": true,
+      "help": "在列表视图显示节点信息栏；关闭后隐藏厂商、地区和分组信息列。"
+    },
+    {
+      "key": "nodeListMetadataFields",
+      "type": "text",
+      "label": "列表信息字段 keys",
+      "default": "provider\nregion\ngroup",
+      "help": "逗号、空格或换行分隔。 provider=厂商（按节点名称识别）； region=地区； group=分组； city=城市、asn=ASN（需要节点地址，仅站长登录后可用）。"
+    },
+    {
+      "key": "nodeListCustomTagsVisible",
+      "type": "boolean",
+      "label": "列表显示自定义标签",
+      "default": true,
+      "help": "列表信息字段包含 tags 时，是否显示节点自定义标签；无标签节点不会显示空标签。"
+    },
+    {
+      "key": "offlineNodesLast",
+      "type": "boolean",
+      "label": "充电中的道具置底",
+      "default": false,
+      "help": "筛选或排序时优先显示元气满满的道具，待机充电中的排到最后。"
+    },
+    {
+      "key": "homeHighLoadThreshold",
+      "type": "number",
+      "label": "铜锣烧告急阈值",
+      "default": 80,
+      "min": 1,
+      "max": 100,
+      "help": "竹蜻蜓转速（CPU）、四次元口袋（内存）或百宝袋（磁盘）占用达到该百分比时归为“铜锣烧告急”（1-100）。"
+    },
+    {
+      "key": "homeTrafficWarningThreshold",
+      "type": "number",
+      "label": "任意门流量预警阈值",
+      "default": 80,
+      "min": 1,
+      "max": 100,
+      "help": "任意门流量配额使用率达到该百分比时归为流量预警（1-100）。"
+    },
+    {
+      "key": "homeExpiringDays",
+      "type": "number",
+      "label": "租约将尽天数",
+      "default": 30,
+      "min": 1,
+      "max": 3650,
+      "help": "道具租约余期小于等于该值时归为“租约将尽”（1-3650 天）。"
+    },
+    {
+      "key": "diskPredictionEnabled",
+      "type": "boolean",
+      "label": "启用磁盘耗尽预测",
+      "default": false,
+      "help": "基于负载历史里的磁盘用量趋势预测耗尽时间；样本少于 2 天或未增长时不显示"
+    },
+    {
+      "key": "diskPredictionThresholdDays",
+      "type": "number",
+      "label": "磁盘预测预警天数",
+      "default": 30,
+      "min": 1,
+      "max": 3650,
+      "help": "预计剩余天数小于等于该值时在节点卡片和详情负载图中显示提示（1-3650）"
+    },
+    {
+      "type": "title",
+      "label": "06 · 道具详情概览卡片"
+    },
+    {
+      "key": "nodeDetailSectionTabsEnabled",
+      "type": "boolean",
+      "label": "详情页分区标签页",
+      "default": false,
+      "help": "默认关闭，保持节点详情页纵向连续展示；开启后按概览、负载、延迟分区显示。"
+    },
+    {
+      "key": "detailMetricCardPreset",
+      "type": "select",
+      "label": "详情概览卡片方案",
+      "default": "财务",
+      "options": [
+        {
+          "value": "财务",
+          "label": "财务"
+        },
+        {
+          "value": "状态",
+          "label": "状态"
+        },
+        {
+          "value": "资源",
+          "label": "资源"
+        },
+        {
+          "value": "网络",
+          "label": "网络"
+        },
+        {
+          "value": "GPU",
+          "label": "GPU"
+        },
+        {
+          "value": "综合",
+          "label": "综合"
+        },
+        {
+          "value": "自定义",
+          "label": "自定义"
+        }
+      ],
+      "help": "宽屏每行 4 张，中屏 3 张，移动端 2 张。财务/状态/网络/GPU=8 张；资源=12 张；综合=16 张；自定义读取下方 keys。"
+    },
+    {
+      "key": "detailMetricCardKeys",
+      "type": "text",
+      "label": "自定义详情卡片 keys",
+      "default": "nodePrice\nmonthlyCost\nremainingTime\nremainingValue\ntotalTraffic\ntrafficQuota\nuptime\nconnections",
+      "help": "逗号、空格或换行分隔。 nodePrice=节点价格； monthlyCost=月均支出； remainingTime=剩余时间； remainingValue=剩余价值； cpuUsage=CPU使用率； memoryUsage=内存使用率； swapUsage=交换内存使用率； diskUsage=硬盘使用率； load=系统负载； processes=进程数； connections=连接数； uptime=运行时间； uploadSpeed=实时上行； downloadSpeed=实时下行； totalTraffic=本期流量； trafficQuota=流量配额。"
+    },
+    {
+      "type": "title",
+      "label": "07 · 道具详情监控图表"
+    },
+    {
+      "key": "chartDashboardPreset",
+      "type": "select",
+      "label": "详情负载图方案",
+      "default": "默认",
+      "options": [
+        {
+          "value": "默认",
+          "label": "默认"
+        },
+        {
+          "value": "精简",
+          "label": "精简"
+        },
+        {
+          "value": "资源",
+          "label": "资源"
+        },
+        {
+          "value": "网络",
+          "label": "网络"
+        },
+        {
+          "value": "GPU",
+          "label": "GPU"
+        },
+        {
+          "value": "延迟",
+          "label": "延迟"
+        },
+        {
+          "value": "运维",
+          "label": "运维"
+        },
+        {
+          "value": "完整",
+          "label": "完整"
+        },
+        {
+          "value": "自定义",
+          "label": "自定义"
+        }
+      ],
+      "help": "资源、网络、GPU、延迟和运维按指标族组合；完整覆盖官方 25 个指标。自定义读取下方 keys。"
+    },
+    {
+      "key": "chartDashboardTemplate",
+      "type": "text",
+      "label": "自定义详情图表 keys",
+      "default": "cpu\nmemory\ndisk\nnetwork\nconnections\nprocess",
+      "help": "逗号、空格或换行分隔。 cpu=CPU； memory=内存； disk=磁盘； network=实时上下行； connections=TCP/UDP（仅实时）； process=进程（仅实时）； ping=延迟； pingLoss=丢包。"
+    },
+    {
+      "type": "title",
+      "label": "08 · 晴空/夜空自定义背景"
+    },
+    {
+      "key": "backgroundEnabled",
+      "type": "boolean",
+      "label": "启用自定义模式背景",
+      "default": false,
+      "help": "开启后使用下方地址替换主题内置的哆啦A梦蓝天空（晴空）和夜空充电背景；每种模式可单独设置。"
+    },
+    {
+      "key": "backgroundType",
+      "type": "select",
+      "label": "自定义背景素材类型",
+      "default": "image",
+      "options": [
+        {
+          "value": "image",
+          "label": "图片"
+        },
+        {
+          "value": "video",
+          "label": "视频"
+        }
+      ],
+      "help": "image=静态背景图片；video=自动静音循环的背景视频。"
+    },
+    {
+      "key": "lightBackgroundUrl",
+      "type": "string",
+      "label": "晴空模式背景地址",
+      "default": "",
+      "help": "留空使用内置哆啦A梦蓝天空背景。支持 HTTPS 地址或站内 / 路径。"
+    },
+    {
+      "key": "darkBackgroundUrl",
+      "type": "string",
+      "label": "夜空模式背景地址",
+      "default": "",
+      "help": "留空使用内置夜空充电背景。支持 HTTPS 地址或站内 / 路径。"
+    },
+    {
+      "key": "backgroundBlur",
+      "type": "number",
+      "label": "自定义背景模糊半径",
+      "default": 0,
+      "min": 0,
+      "max": 200,
+      "help": "对自定义背景素材应用高斯模糊，单位：px；0 表示不模糊。"
+    },
+    {
+      "key": "backgroundOverlay",
+      "type": "number",
+      "label": "自定义背景遮罩强度",
+      "default": 0,
+      "min": -100,
+      "max": 100,
+      "help": "范围 -100 到 100；0 不处理，正数叠加黑色遮罩，负数降低背景素材不透明度。"
+    }
+  ]
+}
