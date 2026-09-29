@@ -62,6 +62,7 @@ onBeforeUnmount(() => {
 <template>
   <section class="dora-stage" aria-label="任意门传送网络地图">
     <AnywhereDoorMap :nodes="props.nodes" :paused="appStore.stopEarth" />
+    <span class="dora-stage__peek" aria-hidden="true" />
     <button
       type="button"
       data-dora-easter-trigger="door"
@@ -136,6 +137,50 @@ onBeforeUnmount(() => {
 :global(.dark .dora-stage) {
   border-color: #0a2c4a;
   background: #06243f;
+}
+
+/* 哆啦A梦从地图左下角探出头来 */
+.dora-stage__peek {
+  position: absolute;
+  z-index: 5;
+  bottom: -1.7rem;
+  left: 0.9rem;
+  width: 4.6rem;
+  aspect-ratio: 200 / 212;
+  background: url('/images/doraemon/doraemon.svg') center top / contain no-repeat;
+  filter: drop-shadow(0 -2px 6px rgb(0 60 110 / 0.18));
+  pointer-events: none;
+  transform-origin: 50% 100%;
+  animation: dora-peek 7s ease-in-out infinite;
+}
+
+@keyframes dora-peek {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  45% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  55% {
+    transform: translateY(-0.45rem) rotate(6deg);
+  }
+  70% {
+    transform: translateY(-0.2rem) rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dora-stage__peek {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .dora-stage__peek {
+    bottom: -1.3rem;
+    width: 3.4rem;
+  }
 }
 
 .dora-stage__egg {
@@ -217,9 +262,10 @@ onBeforeUnmount(() => {
 }
 
 .dora-easter__bell {
-  width: 3rem;
-  height: 3rem;
-  background: url('/images/doraemon/bell.svg') center / contain no-repeat;
+  width: 4.4rem;
+  height: 4.7rem;
+  background: url('/images/doraemon/doraemon.svg') center / contain no-repeat;
+  filter: drop-shadow(0 6px 0 rgb(0 60 110 / 0.3));
   animation: dora-bell-ring 0.9s ease-in-out infinite;
   transform-origin: 50% 10%;
 }
@@ -264,6 +310,21 @@ onBeforeUnmount(() => {
   width: clamp(12rem, 34vw, 20rem);
   aspect-ratio: 3 / 2;
   transform: translate(-50%, -62%);
+}
+
+/* 口袋缝在哆啦A梦的白肚皮上 */
+.dora-easter__pocket-wrap::before {
+  position: absolute;
+  z-index: -2;
+  top: -100%;
+  left: -22.5%;
+  width: 145%;
+  aspect-ratio: 1;
+  border: 0.3rem solid #0b2540;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 30%, #ffffff 0 55%, #e3f4fd 100%);
+  box-shadow: 0 10px 0 rgb(0 60 110 / 0.25);
+  content: '';
 }
 
 .dora-easter__pocket {

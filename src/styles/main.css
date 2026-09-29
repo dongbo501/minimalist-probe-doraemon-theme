@@ -584,39 +584,147 @@ header {
 
 /* ===== DORAEMON visual language ===== */
 
-/* 顶栏：白色面板 + 红色项圈描边 */
+/* 顶栏：悬浮的白色胶囊，底边是红色项圈，正中挂一颗金铃铛 */
 .dora-header {
-  border-bottom: 0 !important;
-  background: rgb(255 255 255 / 0.9) !important;
+  pointer-events: none;
+}
+
+/* 滚动后在胶囊上方铺一层天空色，避免下面的卡片从缝隙里露出来 */
+.dora-header--scrolled::before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2.4rem;
+  background: linear-gradient(180deg, #5cc8f7 0%, #5cc8f7 42%, rgb(92 200 247 / 0));
+  content: '';
+}
+
+.dark .dora-header--scrolled::before {
+  background: linear-gradient(180deg, #020d1c 0%, #020d1c 42%, rgb(2 13 28 / 0));
+}
+
+.dora-header__bar {
+  position: relative;
+  border: 2px solid #ffffff;
+  border-radius: 1.35rem;
+  background: rgb(255 255 255 / 0.93);
   color: var(--dora-ink);
   box-shadow:
-    inset 0 -4px 0 var(--dora-red),
-    0 6px 20px rgb(0 60 110 / 0.18);
+    inset 0 -5px 0 var(--dora-red),
+    0 3px 0 rgb(0 90 150 / 0.2),
+    0 12px 28px rgb(0 60 110 / 0.18);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  pointer-events: auto;
+  transition:
+    background-color 200ms ease,
+    box-shadow 200ms ease;
 }
 
-.dora-header--scrolled {
-  background: rgb(255 255 255 / 0.96) !important;
+.dora-header__bar::after {
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  width: 22px;
+  height: 22px;
+  background: url('/images/doraemon/bell-charm.svg') center / contain no-repeat;
+  content: '';
+  filter: drop-shadow(0 2px 0 rgb(0 60 110 / 0.25));
+  transform: translateX(-50%);
+  transform-origin: 50% 0;
+  animation: dora-bell-swing 4.8s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.dark .dora-header {
-  background: rgb(4 33 59 / 0.9) !important;
+.dora-header__bar--scrolled {
+  background: rgb(255 255 255 / 0.98);
+  box-shadow:
+    inset 0 -5px 0 var(--dora-red),
+    0 3px 0 rgb(0 90 150 / 0.24),
+    0 16px 34px rgb(0 40 80 / 0.28);
+}
+
+.dark .dora-header__bar {
+  border-color: rgb(76 195 255 / 0.28);
+  background: rgb(6 36 63 / 0.9);
   color: #eef8ff;
   box-shadow:
-    inset 0 -4px 0 var(--dora-red),
-    0 6px 24px rgb(0 0 0 / 0.35);
+    inset 0 -5px 0 var(--dora-red),
+    0 3px 0 rgb(0 0 0 / 0.3),
+    0 12px 30px rgb(0 0 0 / 0.4);
+}
+
+.dark .dora-header__bar--scrolled {
+  background: rgb(6 36 63 / 0.97);
+}
+
+.dora-header__action {
+  border-radius: 999px !important;
+  background: #e8f6ff;
+  color: #0b4f8a;
+  transition:
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.dora-header__action:hover {
+  background: var(--dora-blue) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) rotate(-8deg);
+}
+
+.dora-header__action[aria-pressed='true'] {
+  background: var(--dora-gold) !important;
+  color: #5a3a00 !important;
+}
+
+.dark .dora-header__action {
+  background: rgb(76 195 255 / 0.12);
+  color: #a5e4ff;
 }
 
 .dora-brand__mark {
-  border: 2px solid #ffffff;
-  background: var(--dora-blue);
-  box-shadow:
-    0 0 0 2px var(--dora-red),
-    0 4px 12px rgb(0 60 110 / 0.3);
-  transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: grid;
+  width: 2.9rem;
+  height: 3.05rem;
+  flex: none;
+  place-items: center;
+  border-radius: 999px;
+  filter: drop-shadow(0 3px 0 rgb(0 60 110 / 0.18));
+  transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dora-brand__mark img {
+  width: 100%;
+  height: 100%;
 }
 
 .dora-brand__mark:hover {
-  transform: rotate(-12deg) scale(1.06);
+  transform: rotate(-10deg) scale(1.08);
+}
+
+.dora-brand__mark:active {
+  transform: scale(0.94);
+}
+
+@keyframes dora-bell-swing {
+  0%,
+  80%,
+  100% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  85% {
+    transform: translateX(-50%) rotate(14deg);
+  }
+  90% {
+    transform: translateX(-50%) rotate(-10deg);
+  }
+  95% {
+    transform: translateX(-50%) rotate(5deg);
+  }
 }
 
 .dora-brand__copy {
@@ -652,32 +760,18 @@ header {
   position: relative;
 }
 
-/* 卡片：白色（夜间为深蓝）+ 顶部红色项圈 + 金色小铃铛 */
+/* 卡片基底：白色（夜间为深蓝），粗白描边 + 漫画式硬阴影 */
 .dora-stat-card,
 .node-card {
   border: 2px solid rgb(255 255 255 / 0.95) !important;
+  border-radius: 1.1rem !important;
   background: var(--glass-light-card, #ffffff) !important;
   color: var(--glass-light-text, #0b2540) !important;
   box-shadow:
-    0 3px 0 rgb(0 90 150 / 0.22),
+    0 4px 0 rgb(0 90 150 / 0.22),
     var(--glass-light-shadow, 0 10px 28px rgb(0 60 110 / 0.2)) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-}
-
-.dora-stat-card::before,
-.node-card::before {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 11px;
-  background:
-    radial-gradient(circle at 50% 5px, var(--dora-gold) 0 4.2px, var(--dora-gold-deep) 4.4px 5.2px, transparent 5.6px),
-    linear-gradient(var(--dora-red) 0 4px, transparent 4px);
-  content: '';
-  pointer-events: none;
 }
 
 .dora-stat-card:hover,
@@ -685,7 +779,7 @@ header {
   border-color: #ffffff !important;
   background: var(--glass-light-card-hover, #ffffff) !important;
   box-shadow:
-    0 5px 0 rgb(0 90 150 / 0.24),
+    0 6px 0 rgb(0 90 150 / 0.24),
     0 16px 34px rgb(0 60 110 / 0.28) !important;
   transform: translateY(-3px);
 }
@@ -696,7 +790,7 @@ header {
   background: var(--glass-dark-card, #0a2c4ae6) !important;
   color: var(--glass-dark-text, #eef8ff) !important;
   box-shadow:
-    0 3px 0 rgb(0 0 0 / 0.3),
+    0 4px 0 rgb(0 0 0 / 0.3),
     var(--glass-dark-shadow, 0 10px 32px rgb(0 0 0 / 0.45)) !important;
 }
 
@@ -705,13 +799,126 @@ header {
   border-color: rgb(76 195 255 / 0.55) !important;
   background: var(--glass-dark-card-hover, #0d3558f0) !important;
   box-shadow:
-    0 5px 0 rgb(0 0 0 / 0.3),
+    0 6px 0 rgb(0 0 0 / 0.3),
     0 0 26px rgb(76 195 255 / 0.2) !important;
 }
 
-.dora-stat-card .tracking-wider {
-  font-family: var(--font-display);
-  letter-spacing: 0.06em;
+/* ===== 概览指标卡：每件道具一种颜色 ===== */
+.dora-stat-card {
+  --dora-accent: #0096e0;
+  --dora-accent-ink: #0070b8;
+  isolation: isolate;
+}
+
+[data-general-card-key='memory'] {
+  --dora-accent: #e60012;
+  --dora-accent-ink: #c4000f;
+}
+[data-general-card-key='remainingValue'],
+[data-general-card-key='monthlyCost'],
+[data-general-card-key='yearlyCost'] {
+  --dora-accent: #f2b600;
+  --dora-accent-ink: #9a6b00;
+}
+[data-general-card-key='uploadSpeed'],
+[data-general-card-key='uploadPeak'] {
+  --dora-accent: #f06595;
+  --dora-accent-ink: #c2255c;
+}
+[data-general-card-key='disk'] {
+  --dora-accent: #f28c28;
+  --dora-accent-ink: #b85c00;
+}
+[data-general-card-key='totalTraffic'],
+[data-general-card-key='trafficWarnings'] {
+  --dora-accent: #8b5cf6;
+  --dora-accent-ink: #6d3fd8;
+}
+[data-general-card-key='downloadSpeed'],
+[data-general-card-key='downloadPeak'] {
+  --dora-accent: #14b8a6;
+  --dora-accent-ink: #0b7f73;
+}
+[data-general-card-key='offlineNodes'],
+[data-general-card-key='highLoadNodes'],
+[data-general-card-key='expiringNodes'] {
+  --dora-accent: #e60012;
+  --dora-accent-ink: #c4000f;
+}
+
+.dark .dora-stat-card {
+  --dora-accent-ink: color-mix(in srgb, var(--dora-accent) 55%, #ffffff);
+}
+
+/* 顶部彩色项圈：画在与卡片同圆角的整块伪元素上，圆角处跟着卡片弯下去 */
+.dora-stat-card::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: calc(1.1rem - 2px);
+  background:
+    radial-gradient(
+      circle at 100% 100%,
+      color-mix(in srgb, var(--dora-accent) 9%, transparent) 0 42%,
+      transparent 42.5%
+    ),
+    linear-gradient(var(--dora-accent) 0 5px, transparent 5px);
+  background-position:
+    right -2.4rem bottom -2.6rem,
+    0 0;
+  background-repeat: no-repeat;
+  background-size:
+    8.5rem 8.5rem,
+    100% 100%;
+  content: '';
+  pointer-events: none;
+}
+
+.dora-stat-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.dora-stat-card__mark {
+  position: absolute;
+  z-index: 0;
+  right: 0.35rem;
+  bottom: 0.3rem;
+  width: 3.4rem;
+  height: 3.4rem;
+  color: var(--dora-accent);
+  opacity: 0.16;
+  pointer-events: none;
+  transform: rotate(-12deg);
+  transition:
+    transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 200ms ease;
+}
+
+.dora-stat-card:hover .dora-stat-card__mark {
+  opacity: 0.26;
+  transform: rotate(0deg) scale(1.08);
+}
+
+.dora-stat-card__icon {
+  display: grid;
+  width: 1.9rem;
+  height: 1.9rem;
+  flex: none;
+  place-items: center;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--dora-accent) 14%, transparent);
+  color: var(--dora-accent-ink);
+  transition:
+    transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.dora-stat-card:hover .dora-stat-card__icon {
+  background: var(--dora-accent);
+  color: #ffffff;
+  transform: rotate(-12deg) scale(1.08);
 }
 
 .dora-stat-card__label {
@@ -719,6 +926,115 @@ header {
   overflow-wrap: anywhere;
   line-height: 1.35;
   white-space: normal;
+}
+
+.dora-stat-card__value {
+  color: var(--dora-ink);
+  font-family: var(--font-display);
+}
+
+.dark .dora-stat-card__value {
+  color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  .dora-stat-card__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .dora-stat-card__icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .dora-stat-card__mark {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+}
+
+/* ===== 节点卡片：蓝色的头 → 红项圈 + 金铃铛 → 白肚皮 ===== */
+.node-card .dora-node-head {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 0.95rem;
+  padding-bottom: 0.8rem;
+  background:
+    radial-gradient(ellipse 60% 120% at 12% 0%, rgb(255 255 255 / 0.22), transparent 60%),
+    linear-gradient(180deg, #28b2f3 0%, #0092dc 100%);
+  box-shadow: inset 0 -6px 0 var(--dora-red);
+  color: #ffffff !important;
+}
+
+.node-card .dora-node-head::after {
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  width: 17px;
+  height: 17px;
+  background: url('/images/doraemon/bell-charm.svg') center / contain no-repeat;
+  content: '';
+  filter: drop-shadow(0 1.5px 0 rgb(0 60 110 / 0.22));
+  transform: translateX(-50%);
+  transform-origin: 50% 0;
+  pointer-events: none;
+}
+
+.node-card:hover .dora-node-head::after {
+  animation: dora-bell-ring 700ms ease-in-out;
+}
+
+.node-card .dora-node-head--sleeping {
+  background:
+    radial-gradient(ellipse 60% 120% at 12% 0%, rgb(255 255 255 / 0.18), transparent 60%),
+    linear-gradient(180deg, #9db0c2 0%, #7d91a5 100%);
+  box-shadow: inset 0 -6px 0 #b0626a;
+}
+
+.dark .node-card .dora-node-head {
+  background:
+    radial-gradient(ellipse 60% 120% at 12% 0%, rgb(76 195 255 / 0.2), transparent 60%),
+    linear-gradient(180deg, #0e6aa8 0%, #0a4b80 100%);
+}
+
+.dark .node-card .dora-node-head--sleeping {
+  background: linear-gradient(180deg, #3a4d60 0%, #2a3a4b 100%);
+}
+
+.node-card .dora-node-head .text-muted-foreground,
+.dark .node-card .dora-node-head .text-muted-foreground {
+  color: rgb(255 255 255 / 0.78) !important;
+}
+
+.node-card .dora-node-head .text-muted-foreground:hover,
+.node-card .dora-node-head .text-amber-500 {
+  color: var(--dora-gold) !important;
+}
+
+.node-card .dora-node-head img {
+  filter: drop-shadow(0 1px 1px rgb(0 40 80 / 0.35));
+}
+
+@keyframes dora-bell-ring {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  20% {
+    transform: translateX(-50%) rotate(18deg);
+  }
+  45% {
+    transform: translateX(-50%) rotate(-14deg);
+  }
+  70% {
+    transform: translateX(-50%) rotate(7deg);
+  }
+}
+
+.dora-stat-card .tracking-wider {
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
 }
 
 .bg-slate-500\/5 {
@@ -808,4 +1124,123 @@ header {
 .dark .bg-background\/60,
 .dark .bg-background\/70 {
   background-color: rgb(10 44 74 / 0.92) !important;
+}
+
+/* ===== 页面画布与滚动条 ===== */
+/* 桌面浏览器的滚动条轨道是透明的，会露出根元素背景；
+   根背景和 Background.vue 的天空保持一致，避免右侧出现一条颜色不同的竖条。 */
+html {
+  background: linear-gradient(180deg, #5cc8f7 0%, #1aa6ec 34%, #0096e0 62%, #0a86cf 100%) fixed;
+  scrollbar-color: rgb(255 255 255 / 0.7) transparent;
+}
+
+html.dark {
+  background: linear-gradient(180deg, #020d1c 0%, #04213b 46%, #073357 100%) fixed;
+  scrollbar-color: rgb(76 195 255 / 0.45) transparent;
+}
+
+/* ===== 标签页：选中项是一颗哆啦A梦蓝的小胶囊 ===== */
+[data-slot='tabs-trigger'][data-state='active'] {
+  background: var(--dora-blue) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 0 var(--dora-blue-deep) !important;
+}
+
+.dark [data-slot='tabs-trigger'][data-state='active'] {
+  background: #0e6aa8 !important;
+  box-shadow: 0 2px 0 #06406b !important;
+}
+
+[data-slot='tabs-list'] {
+  border-radius: 0.8rem !important;
+  box-shadow: 0 3px 0 rgb(0 90 150 / 0.18);
+}
+
+[data-slot='tabs-trigger'] {
+  border-radius: 0.6rem !important;
+}
+
+/* 首页快捷筛选：选中项是铃铛金 */
+.home-quick-controls {
+  border-radius: 0.8rem !important;
+  box-shadow: 0 3px 0 rgb(0 90 150 / 0.18);
+}
+
+.home-quick-control {
+  border-radius: 0.6rem !important;
+}
+
+.home-quick-control.is-active {
+  background: #fff3b0 !important;
+  color: #6b4f00 !important;
+  box-shadow: inset 0 0 0 1.5px rgb(217 164 0 / 0.55) !important;
+}
+
+.dark .home-quick-control.is-active {
+  background: rgb(255 215 0 / 0.16) !important;
+  color: #ffe45c !important;
+}
+
+/* ===== 详情页与通用卡片：圆角加大，和首页卡片统一 ===== */
+[data-slot='card'],
+.instance-detail .text-card-foreground {
+  border-radius: 1.1rem !important;
+}
+
+.instance-detail .text-card-foreground {
+  border: 2px solid rgb(255 255 255 / 0.95) !important;
+  box-shadow:
+    0 4px 0 rgb(0 90 150 / 0.2),
+    0 10px 26px rgb(0 60 110 / 0.18) !important;
+}
+
+.dark .instance-detail .text-card-foreground {
+  border-color: var(--glass-dark-border, rgb(76 195 255 / 0.25)) !important;
+  box-shadow:
+    0 4px 0 rgb(0 0 0 / 0.3),
+    0 10px 30px rgb(0 0 0 / 0.4) !important;
+}
+
+/* 详情页概览卡：按顺序轮换道具色 */
+.dora-detail-stat:nth-child(6n + 1) {
+  --dora-accent: #f2b600;
+  --dora-accent-ink: #9a6b00;
+}
+.dora-detail-stat:nth-child(6n + 2) {
+  --dora-accent: #e60012;
+  --dora-accent-ink: #c4000f;
+}
+.dora-detail-stat:nth-child(6n + 3) {
+  --dora-accent: #14b8a6;
+  --dora-accent-ink: #0b7f73;
+}
+.dora-detail-stat:nth-child(6n + 4) {
+  --dora-accent: #f06595;
+  --dora-accent-ink: #c2255c;
+}
+.dora-detail-stat:nth-child(6n + 5) {
+  --dora-accent: #8b5cf6;
+  --dora-accent-ink: #6d3fd8;
+}
+.dora-detail-stat:nth-child(6n + 6) {
+  --dora-accent: #f28c28;
+  --dora-accent-ink: #b85c00;
+}
+
+/* 详情页分区标题前挂一颗小铃铛 */
+.instance-detail .text-card-foreground > .flex.items-center > .flex-1 > .font-medium {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.instance-detail .text-card-foreground > .flex.items-center > .flex-1 > .font-medium::before {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  background: url('/images/doraemon/bell-charm.svg') center / contain no-repeat;
+  content: '';
 }

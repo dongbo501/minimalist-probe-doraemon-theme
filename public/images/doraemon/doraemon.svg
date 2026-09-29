@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 212">
+  <defs>
+    <radialGradient id="d-head" cx="38%" cy="28%" r="80%">
+      <stop offset="0" stop-color="#3cc0ff"/>
+      <stop offset="0.55" stop-color="#0096e0"/>
+      <stop offset="1" stop-color="#0077c2"/>
+    </radialGradient>
+    <radialGradient id="d-nose" cx="34%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#ff8a92"/>
+      <stop offset="0.45" stop-color="#e60012"/>
+      <stop offset="1" stop-color="#a3000d"/>
+    </radialGradient>
+    <radialGradient id="d-bell" cx="36%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#fff6b0"/>
+      <stop offset="0.4" stop-color="#ffd700"/>
+      <stop offset="1" stop-color="#d9a400"/>
+    </radialGradient>
+  </defs>
+  <g stroke="#0b2540" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <!-- 头 -->
+    <ellipse cx="100" cy="98" rx="92" ry="88" fill="url(#d-head)"/>
+    <!-- 脸 -->
+    <path d="M100 38 C150 38 176 72 176 114 C176 156 142 180 100 180 C58 180 24 156 24 114 C24 72 50 38 100 38 Z" fill="#ffffff"/>
+    <!-- 眼睛 -->
+    <ellipse cx="81" cy="58" rx="19" ry="23" fill="#ffffff"/>
+    <ellipse cx="119" cy="58" rx="19" ry="23" fill="#ffffff"/>
+  </g>
+  <!-- 瞳孔 -->
+  <ellipse cx="90" cy="64" rx="5.5" ry="7.5" fill="#0b2540"/>
+  <ellipse cx="110" cy="64" rx="5.5" ry="7.5" fill="#0b2540"/>
+  <circle cx="91.6" cy="61.4" r="2" fill="#ffffff"/>
+  <circle cx="111.6" cy="61.4" r="2" fill="#ffffff"/>
+  <g stroke="#0b2540" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 鼻梁线 -->
+    <path d="M100 94 V130" fill="none"/>
+    <!-- 嘴 -->
+    <path d="M58 122 Q100 138 142 122 Q138 174 100 174 Q62 174 58 122 Z" fill="#e8384f"/>
+    <path d="M74 160 Q100 142 126 160 Q116 172 100 172 Q84 172 74 160 Z" fill="#ff8f6b" stroke-width="3"/>
+    <!-- 胡须 -->
+    <path d="M34 78 L70 90 M30 100 L70 102 M36 122 L70 112 M166 78 L130 90 M170 100 L130 102 M164 122 L130 112" fill="none" stroke-width="3.2"/>
+    <!-- 鼻子 -->
+    <circle cx="100" cy="84" r="12" fill="url(#d-nose)" stroke-width="3.5"/>
+  </g>
+  <circle cx="96" cy="79.5" r="3.6" fill="#ffffff"/>
+  <!-- 项圈与铃铛 -->
+  <g stroke="#0b2540" stroke-width="3.5" stroke-linejoin="round">
+    <rect x="34" y="176" width="132" height="14" rx="7" fill="#e60012"/>
+    <circle cx="100" cy="194" r="15" fill="url(#d-bell)"/>
+  </g>
+  <path d="M86.5 190 H113.5" stroke="#8a5a00" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="100" cy="199" r="3.4" fill="#5a3a00"/>
+  <path d="M100 201.5 V207" stroke="#5a3a00" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

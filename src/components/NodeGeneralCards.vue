@@ -807,13 +807,13 @@ onMounted(async () => {
         @click="activateCard(card)"
         @keydown="handleCardKeydown($event, card)"
       >
-        <div class="flex h-full flex-col justify-between gap-1">
+        <Icon :icon="card.icon" class="dora-stat-card__mark" aria-hidden="true" />
+        <div class="relative z-1 flex h-full flex-col justify-between gap-1">
           <div class="flex items-start justify-between gap-2">
-            <span class="dora-stat-card__label min-w-0 font-medium text-muted-foreground">{{ card.label }}</span>
-            <Icon
-              :icon="card.icon" :width="18" :height="18"
-              class="shrink-0 text-[#0096e0]/40 group-hover:text-[#e60012] dark:text-[#4cc3ff]/40 dark:group-hover:text-[#ffd700] transition-colors"
-            />
+            <span class="dora-stat-card__label min-w-0 pt-1 font-medium text-muted-foreground">{{ card.label }}</span>
+            <span class="dora-stat-card__icon" aria-hidden="true">
+              <Icon :icon="card.icon" :width="17" :height="17" />
+            </span>
           </div>
           <DataTooltip
             as="span"
@@ -828,7 +828,7 @@ onMounted(async () => {
                 class="flex items-baseline gap-1 min-w-0"
                 :style="getMetricSwitchStyle(index)"
               >
-                <span class="text-md md:text-2xl font-bold leading-none tracking-tight truncate">
+                <span class="dora-stat-card__value text-md md:text-[1.7rem] font-extrabold leading-none tracking-tight truncate">
                   {{ card.value }}
                 </span>
                 <span v-if="card.unit" :class="unitClass">
@@ -861,7 +861,7 @@ onMounted(async () => {
 
 <style scoped>
 .dora-stat-card__label {
-  max-width: calc(100% - 1.35rem);
+  max-width: calc(100% - 2.4rem);
   font-size: clamp(0.6rem, 0.7vw, 0.74rem);
   line-height: 1.25;
   letter-spacing: 0.02em;

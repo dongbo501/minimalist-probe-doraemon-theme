@@ -586,13 +586,16 @@ const metricCards = computed<MetricCard[]>(() => appStore.detailMetricCardOrder.
       <div v-if="!appStore.nodeDetailSectionTabsEnabled || activeDetailSection === 'overview'" class="px-4 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
         <CardX
           v-for="item in metricCards" :key="item.key" hoverable size="small"
-          class="group h-full bg-background/50 border-none hover:bg-background transition-all rounded-md"
+          class="dora-stat-card dora-detail-stat group relative h-full bg-background/50 border-none hover:bg-background transition-all rounded-md"
           content-class="h-full !p-3"
         >
-          <div :title="item.tooltip" class="flex h-full min-h-10 md:min-h-18 flex-col justify-between gap-3">
+          <Icon :icon="item.icon" class="dora-stat-card__mark" aria-hidden="true" />
+          <div :title="item.tooltip" class="relative z-1 flex h-full min-h-10 md:min-h-18 flex-col justify-between gap-3">
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-medium tracking-wider text-muted-foreground">{{ item.label }}</span>
-              <Icon :icon="item.icon" :width="20" :height="20" class="text-slate-500/25 transition-colors group-hover:text-slate-500" />
+              <span class="dora-stat-card__icon" aria-hidden="true">
+                <Icon :icon="item.icon" :width="17" :height="17" />
+              </span>
             </div>
             <div class="min-w-0 space-y-1">
               <div class="flex min-w-0 items-baseline gap-1 truncate font-semibold leading-none" :class="item.valueClass">

@@ -223,7 +223,7 @@ function hasRegion(region: string | null | undefined): boolean {
     :size="nodeCardXSize"
     :content-class="nodeCardContentPaddingClass"
     class="node-card w-full cursor-pointer border-none shadow-[0_0_0_3px] shadow-transparent transition-all duration-200 rounded-xl"
-    :class="[!props.node.online && '!shadow-destructive/30']"
+    :header-class="['dora-node-head', !props.node.online && 'dora-node-head--sleeping']"
     role="button"
     tabindex="0"
     :aria-label="`查看节点 ${props.node.name} 详情`"
@@ -269,12 +269,14 @@ function hasRegion(region: string | null | undefined): boolean {
         >
           <Icon :icon="isFavorite ? 'tabler:star-filled' : 'tabler:star'" width="14" height="14" />
         </button>
-        <img :src="getOSImage(props.node.os)" :alt="getOSName(props.node.os)" class="size-4">
+        <span class="dora-node-chip">
+          <img :src="getOSImage(props.node.os)" :alt="getOSName(props.node.os)" class="size-3.5">
+        </span>
         <img
           v-if="hasRegion(props.node.region)"
           :src="`/images/flags/${getRegionCode(props.node.region)}.svg`"
           :alt="getRegionAltText(props.node.region)"
-          class="size-5 shrink-0"
+          class="dora-node-flag size-5 shrink-0"
         >
       </div>
     </template>
@@ -709,9 +711,24 @@ function hasRegion(region: string | null | undefined): boolean {
 
 .dora-node-nose {
   display: inline-block;
-  width: 0.72rem;
-  height: 0.72rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 2px solid #ffffff;
   border-radius: 999px;
+}
+
+.dora-node-chip {
+  display: inline-grid;
+  width: 1.25rem;
+  height: 1.25rem;
+  place-items: center;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 1px 0 rgb(0 40 80 / 0.25);
+}
+
+.dora-node-flag {
+  border-radius: 3px;
 }
 
 /* 在线：哆啦A梦的红鼻子，带高光，轻轻呼吸 */
@@ -726,7 +743,12 @@ function hasRegion(region: string | null | undefined): boolean {
 }
 
 .dora-node-state {
-  color: #0079bf;
+  align-self: flex-start;
+  margin-top: 0.15rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.22);
+  padding: 0.05rem 0.4rem;
+  color: #ffffff;
   font-family: var(--font-display);
   font-size: 0.62rem;
   font-weight: 700;
@@ -735,15 +757,8 @@ function hasRegion(region: string | null | undefined): boolean {
 }
 
 .dora-node-state--sleeping {
-  color: #6b7a89;
-}
-
-:global(.dark .dora-node-state) {
-  color: #4cc3ff;
-}
-
-:global(.dark .dora-node-state--sleeping) {
-  color: #93a4b5;
+  background: rgb(0 0 0 / 0.14);
+  color: rgb(255 255 255 / 0.9);
 }
 
 .dora-gadget-tag {

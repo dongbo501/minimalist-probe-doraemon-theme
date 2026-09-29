@@ -2,7 +2,6 @@
 import { Icon } from '@iconify/vue'
 import { computed, inject, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import VisitorInfo from '@/components/VisitorInfo.vue'
@@ -13,7 +12,7 @@ const appStore = useAppStore()
 
 const isScrolled = inject<ReturnType<typeof ref<boolean>>>('isScrolled', ref(false))
 
-const siteFavicon = ref('/images/doraemon/bell.svg')
+const siteFavicon = '/images/doraemon/doraemon.svg'
 
 const actionButtons = computed(() => {
   const nextThemeTitle = appStore.isDark ? '切换到晴空模式' : '切换到夜空充电模式'
@@ -74,23 +73,20 @@ const sitename = computed(() => appStore.publicSettings?.sitename || 'Monitor')
   <VisitorInfo v-if="!appStore.loading && appStore.visitorInfoEnabled" />
 
   <div
-    class="dora-header transition-all duration-200 top-0 sticky z-10 border-b border-transparent"
-    :class="isScrolled ? 'dora-header--scrolled backdrop-blur-lg' : 'bg-transparent'"
+    class="dora-header sticky top-0 z-10 px-4 pt-2.5 max-w-[1280px] mx-auto max-sm:px-3 max-sm:pt-2"
+    :class="isScrolled && 'dora-header--scrolled'"
   >
-    <div class="px-4 flex-between h-14 max-w-[1280px] mx-auto">
-      <div class="flex items-center gap-3 cursor-pointer" @click="router.push('/')">
+    <div class="dora-header__bar flex-between h-14 pl-2 pr-3" :class="isScrolled && 'dora-header__bar--scrolled'">
+      <div class="flex items-center gap-2.5 cursor-pointer" @click="router.push('/')">
         <button
           type="button"
           data-dora-easter-trigger="pocket"
-          class="rounded-full"
-          title="摇一摇黄铃铛，打开四次元口袋"
+          class="dora-brand__mark"
+          title="摸摸哆啦A梦的铃铛，打开四次元口袋"
           aria-label="打开四次元口袋彩蛋"
           @click.stop="revealPocketEasterEgg"
         >
-          <Avatar class="dora-brand__mark size-9">
-            <AvatarImage :src="siteFavicon" :alt="sitename" />
-            <AvatarFallback>{{ sitename.slice(0, 1) }}</AvatarFallback>
-          </Avatar>
+          <img :src="siteFavicon" alt="" width="46" height="49">
         </button>
         <div class="dora-brand__copy">
           <h1 class="sr-only">
@@ -101,15 +97,15 @@ const sitename = computed(() => appStore.publicSettings?.sitename || 'Monitor')
         </div>
       </div>
       <TooltipProvider :delay-duration="200">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5">
           <Tooltip v-for="button in actionButtons" :key="button.action">
             <TooltipTrigger as-child>
               <Button
                 variant="ghost"
                 size="icon-sm"
+                class="dora-header__action"
                 :aria-label="button.title"
                 :aria-pressed="button.pressed"
-                :class="button.pressed && 'bg-background/70 text-selection'"
                 @click="handleButtonClick(button.action)"
               >
                 <Icon :icon="button.icon" :width="18" :height="18" />

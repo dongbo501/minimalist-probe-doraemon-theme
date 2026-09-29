@@ -20,8 +20,9 @@ const hasCustomBackground = computed(() => appStore.backgroundEnabled && Boolean
         <span class="dora-copter-loader__blade" />
         <span class="dora-copter-loader__stick" />
         <span class="dora-copter-loader__cap" />
+        <img class="dora-copter-loader__face" src="/images/doraemon/doraemon.svg" alt="" width="96" height="102">
       </span>
-      <span v-if="!hasCustomBackground" class="loading-cover__text">竹蜻蜓起飞中…</span>
+      <span v-if="!hasCustomBackground" class="loading-cover__text">哆啦A梦正在翻口袋…</span>
       <span v-else class="sr-only">加载中</span>
     </div>
   </div>
@@ -58,46 +59,58 @@ const hasCustomBackground = computed(() => appStore.backgroundEnabled && Boolean
 .dora-copter-loader {
   position: relative;
   display: block;
-  width: 64px;
-  height: 56px;
+  width: 96px;
+  height: 142px;
   animation: dora-copter-hover 1.4s ease-in-out infinite;
 }
 
 .dora-copter-loader--small {
-  transform: scale(0.6);
+  transform: scale(0.5);
 }
 
 .dora-copter-loader__blade {
   position: absolute;
-  top: 6px;
-  left: 0;
-  width: 64px;
-  height: 8px;
-  border: 1.5px solid #8a5a00;
+  z-index: 2;
+  top: 0;
+  left: 10px;
+  width: 76px;
+  height: 10px;
+  border: 2px solid #8a5a00;
   border-radius: 50%;
   background: #f5b83d;
-  animation: dora-copter-spin 0.32s linear infinite;
+  animation: dora-copter-spin 0.3s linear infinite;
 }
 
 .dora-copter-loader__stick {
   position: absolute;
-  top: 12px;
-  left: 30px;
-  width: 4px;
+  z-index: 1;
+  top: 7px;
+  left: 45px;
+  width: 6px;
   height: 26px;
-  border-radius: 2px;
+  border-radius: 3px;
   background: #8a5a00;
 }
 
 .dora-copter-loader__cap {
   position: absolute;
-  bottom: 2px;
-  left: 18px;
+  z-index: 1;
+  top: 24px;
+  left: 34px;
   width: 28px;
   height: 16px;
-  border: 1.5px solid #8a5a00;
+  border: 2px solid #8a5a00;
   border-radius: 14px 14px 3px 3px;
   background: #ffd700;
+}
+
+.dora-copter-loader__face {
+  position: absolute;
+  top: 38px;
+  left: 0;
+  width: 96px;
+  height: 102px;
+  filter: drop-shadow(0 10px 10px rgb(0 40 80 / 0.3));
 }
 
 @keyframes dora-copter-spin {
