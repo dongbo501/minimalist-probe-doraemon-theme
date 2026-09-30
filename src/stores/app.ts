@@ -1223,6 +1223,9 @@ const useAppStore = defineStore('app', () => {
 
   const backgroundOverlay = computed<number>(() => readNumberSetting(themeSettings.value, 'backgroundOverlay', 0, -100, 100))
 
+  /** 卡片、顶栏、筛选条、地图等模块底色的不透明度（0-100），100 为主题默认效果 */
+  const moduleOpacity = computed<number>(() => readNumberSetting(themeSettings.value, 'moduleOpacity', 100, 0, 100))
+
   // 当 publicSettings 加载后，如果 localStorage 没有保存过视图模式或值为非法值，使用默认值
   watch(publicSettings, (settings) => {
     if (settings && !isValidViewMode(storedViewMode.value)) {
@@ -1367,6 +1370,7 @@ const useAppStore = defineStore('app', () => {
     currentBackgroundUrl,
     backgroundBlur,
     backgroundOverlay,
+    moduleOpacity,
     isLoggedIn,
     authStatus,
     privateFeaturesAllowed,

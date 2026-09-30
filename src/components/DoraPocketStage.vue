@@ -127,7 +127,7 @@ onBeforeUnmount(() => {
   overflow: hidden;
   border: 3px solid #ffffff;
   border-radius: 1.4rem;
-  background: #f3fbff;
+  background: rgb(243 251 255 / var(--dora-surface-alpha, 1));
   box-shadow:
     0 0 0 3px var(--dora-red),
     0 4px 0 3px rgb(163 0 13 / 0.6),
@@ -136,7 +136,7 @@ onBeforeUnmount(() => {
 
 :global(.dark .dora-stage) {
   border-color: #0a2c4a;
-  background: #06243f;
+  background: rgb(6 36 63 / var(--dora-surface-alpha, 1));
 }
 
 /* 哆啦A梦从地图左下角探出头来 */

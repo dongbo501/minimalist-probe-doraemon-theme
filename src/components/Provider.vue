@@ -2,7 +2,7 @@
 import { provide, ref, watch } from 'vue'
 import { BackTop } from '@/components/ui/back-top'
 import { useAppStore } from '@/stores/app'
-import { buildGlassThemeTokens } from '@/utils/glassTheme'
+import { applyModuleOpacity, buildGlassThemeTokens } from '@/utils/glassTheme'
 
 const appStore = useAppStore()
 
@@ -22,10 +22,11 @@ watch(
 )
 
 watch(
-  () => [appStore.glassColorPreset, appStore.glassCustomColors] as const,
-  ([preset, customColors]) => {
-    const tokens = buildGlassThemeTokens(preset, customColors)
+  () => [appStore.glassColorPreset, appStore.glassCustomColors, appStore.moduleOpacity] as const,
+  ([preset, customColors, moduleOpacity]) => {
+    const tokens = applyModuleOpacity(buildGlassThemeTokens(preset, customColors), moduleOpacity)
     const root = document.documentElement
+    root.style.setProperty('--dora-surface-alpha', String(moduleOpacity / 100))
     root.style.setProperty('--glass-light-card', tokens.lightCard)
     root.style.setProperty('--glass-light-card-hover', tokens.lightCardHover)
     root.style.setProperty('--glass-light-control', tokens.lightControl)

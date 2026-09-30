@@ -123,3 +123,33 @@ export function buildGlassThemeTokens(preset: GlassColorPreset, customColors: Gl
     darkShadow: '0 8px 30px rgb(0 0 0 / 0.48)',
   }
 }
+
+const HEX_COLOR_REGEX = /^#[0-9a-f]{6}(?:[0-9a-f]{2})?$/i
+
+/** 按比例缩放 #rrggbb / #rrggbbaa 颜色的透明度 */
+function scaleHexAlpha(color: string, factor: number): string {
+  if (factor >= 1 || !HEX_COLOR_REGEX.test(color))
+    return color
+  const alpha = color.length === 9 ? Number.parseInt(color.slice(7), 16) : 255
+  const scaled = Math.round(alpha * Math.max(factor, 0))
+  return `${color.slice(0, 7)}${scaled.toString(16).padStart(2, '0')}`
+}
+
+/** 模块不透明度：只降低卡片、控件、顶栏底色的透明度，文字、边框和阴影保持不变 */
+export function applyModuleOpacity(tokens: GlassThemeTokens, opacity: number): GlassThemeTokens {
+  const factor = opacity / 100
+  if (factor >= 1)
+    return tokens
+
+  return {
+    ...tokens,
+    lightCard: scaleHexAlpha(tokens.lightCard, factor),
+    lightCardHover: scaleHexAlpha(tokens.lightCardHover, factor),
+    lightControl: scaleHexAlpha(tokens.lightControl, factor),
+    lightHeader: scaleHexAlpha(tokens.lightHeader, factor),
+    darkCard: scaleHexAlpha(tokens.darkCard, factor),
+    darkCardHover: scaleHexAlpha(tokens.darkCardHover, factor),
+    darkControl: scaleHexAlpha(tokens.darkControl, factor),
+    darkHeader: scaleHexAlpha(tokens.darkHeader, factor),
+  }
+}

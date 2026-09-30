@@ -385,7 +385,7 @@ const identityIcon = computed(() => appStore.privateFeaturesAllowed ? 'tabler:cr
 <style scoped>
 .visitor-info-pill {
   border: 2px solid #ffffff;
-  background: rgb(255 255 255 / 0.96);
+  background: rgb(255 255 255 / calc(0.96 * var(--dora-surface-alpha, 1)));
   box-shadow:
     0 3px 0 rgb(0 90 150 / 0.25),
     0 10px 28px rgb(0 60 110 / 0.22);
@@ -393,7 +393,9 @@ const identityIcon = computed(() => appStore.privateFeaturesAllowed ? 'tabler:cr
 
 .visitor-info-card {
   border: 2px solid #ffffff;
-  background: linear-gradient(var(--dora-red) 0 4px, transparent 4px), rgb(255 255 255 / 0.97);
+  background:
+    linear-gradient(var(--dora-red) 0 4px, transparent 4px),
+    rgb(255 255 255 / calc(0.97 * var(--dora-surface-alpha, 1)));
   box-shadow:
     0 4px 0 rgb(0 90 150 / 0.25),
     0 18px 40px rgb(0 60 110 / 0.24);
@@ -412,13 +414,14 @@ const identityIcon = computed(() => appStore.privateFeaturesAllowed ? 'tabler:cr
 
 :global(.dark .visitor-info-pill) {
   border-color: rgb(76 195 255 / 0.3);
-  background: rgb(6 36 63 / 0.94);
+  background: rgb(6 36 63 / calc(0.94 * var(--dora-surface-alpha, 1)));
   box-shadow: 0 10px 32px rgb(0 0 0 / 0.42);
 }
 
 :global(.dark .visitor-info-card) {
   border-color: rgb(76 195 255 / 0.3);
-  background: linear-gradient(var(--dora-red) 0 4px, transparent 4px), rgb(6 36 63 / 0.96);
+  background:
+    linear-gradient(var(--dora-red) 0 4px, transparent 4px), rgb(6 36 63 / calc(0.96 * var(--dora-surface-alpha, 1)));
   box-shadow: 0 18px 48px rgb(0 0 0 / 0.48);
 }
 
